@@ -123,7 +123,7 @@ DB::connection()->getPdo();
 
 ```json
 {
-  "title": "Got todos",
+  "title": "Laravel-API",
   "completed": true
 }
 ```
