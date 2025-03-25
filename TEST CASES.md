@@ -57,6 +57,8 @@ The purpose of these test cases is to ensure that the Laravel REST API, integrat
 **Test Run Date:**   
 **Result:**   
 
+![image1](image1.png)
+
 ---
 
 ### **TC2: Database Connection**
