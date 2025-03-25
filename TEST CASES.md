@@ -19,19 +19,16 @@ The purpose of these test cases is to ensure that the Laravel REST API, integrat
 
 ---
 
-## **Table of Contents**
+# Table of Contents
 
-1. **Test Environment**  
-2. **Test Cases**  
-   - TC1: API Accessibility  
-   - TC2: Database Connection  
-   - TC3: User Registration  
-   - TC4: User Login  
-   - TC5: Fetch User Profile  
-   - TC6: Save Data in Database  
-   - TC7: Data Validation  
-   - TC8: Frontend Integration  
-   - TC9: Error Handling  
+- [TC1: API Health Check](#tc1-api-health-check)
+- [TC2: Database Connection](#tc2-database-connection)
+- [TC3: Create a New Todo](#tc3-create-a-new-todo)
+- [TC4: Fetch All Todos](#tc4-fetch-all-todos)
+- [TC5: Fetch a Specific Todo by ID](#tc5-fetch-a-specific-todo-by-id)
+- [TC6: Update a Todo Item](#tc6-update-a-todo-item)
+- [TC7: Delete a Todo](#tc7-delete-a-todo)
+
 
 ---
 
@@ -46,124 +43,206 @@ The purpose of these test cases is to ensure that the Laravel REST API, integrat
 
 ---
 
-### **TC1: API Accessibility**
-**Scenario:** Ensure that the API is accessible and responding.  
-**Remarks:** API routes must be correctly set in `routes/api.php`.
 
-- **Given** the API server is running,
-- **When** a user sends a request to an API endpoint,
-- **Then** the server responds with a `200 OK` status.
+---
 
-**Test Run Date:**   
-**Result:**   
 
+## TC1: API Health Check
+
+### Scenario
+
+**Remarks:** Verify if the API is accessible.
+
+### Given
+- A running Laravel API server.
+
+### When
+- A GET request is sent to `/v1/`.
+
+### Then
+- The API should return a `200 OK` response.
+- JSON response should contain:
+
+```json
+{
+  "success": true,
+  "message": "API Version 1"
+}
+```
+
+### Test Run
+- **Date:**
+- **Result:**
+
+### Testing outputs
 ![image1](image1.png)
 
 ---
 
-### **TC2: Database Connection**
-**Scenario:** Validate connection between Laravel and PostgreSQL.  
-**Remarks:** Ensure correct `.env` configurations.
+## TC2: Database Connection
 
-- **Given** the database details are correctly set in the `.env` file,
-- **When** the Laravel app starts,
-- **Then** it should connect to PostgreSQL successfully.
+### Scenario
 
-**Test Run Date:**   
-**Result:**   
+**Remarks:** Ensure that Laravel can connect to PostgreSQL.
 
----
+### Given
+- A PostgreSQL database is set up and running.
 
-### **TC3: User Registration**
-**Scenario:** A new user should be able to register via API.  
-**Remarks:** Ensure email uniqueness and password encryption.
+### When
+- `php artisan migrate` is executed.
+- `php artisan tinker` is run, and the following command is executed:
 
-- **Given** a user provides valid registration details (name, email, password),
-- **When** they send a `POST` request to `/api/register`,
-- **Then** a new user is created, and the API returns `201 Created`.
+```php
+DB::connection()->getPdo();
+```
 
-**Test Run Date:**   
-**Result:**   
+### Then
+- No errors should occur.
+- Database tables should exist (verify using `\dt todos` in psql).
 
----
+### Test Run
+- **Date:**
+- **Result:**
 
-### **TC4: User Login**
-**Scenario:** A registered user should be able to log in.  
-**Remarks:** Invalid credentials should return `401 Unauthorized`.
-
-- **Given** a user provides valid login details (email, password).
-- **When** they send a `POST` request to `/api/login`,
-- **Then** the API returns an authentication token with `200 OK`.
-
-**Test Run Date:**   
-**Result:**   
+### Testing outputs
+![image1](image2.png)
 
 ---
 
-### **TC5: Fetch User Profile**
-**Scenario:** A logged-in user should fetch their profile details.  
-**Remarks:** Unauthorized users should get a `401` error.
+## TC3: Create a New Todo
 
-- **Given** the user is logged in,
-- **When** they send a `GET` request to `/api/profile`,
-- **Then** the API returns user details with `200 OK`.
+### Scenario
 
-**Test Run Date:**   
-**Result:**   
+**Remarks:** Verify if a new todo item can be created.
 
----
+### Given
+- A running Laravel API server.
 
-### **TC6: Save Data in Database**
-**Scenario:** Data should be correctly saved in PostgreSQL.  
-**Remarks:** Verify if the database table updates properly.
+### When
+- A POST request is sent to `/v1/todos` with payload:
 
-- **Given** the user sends valid data via `POST` request,
-- **When** the request reaches the API,
-- **Then** the data is stored successfully.
+```json
+{
+  "title": "Got todos",
+  "completed": true
+}
+```
 
-**Test Run Date:**   
-**Result:**   
+### Then
+- Response status should be `201 Created`.
+- JSON response should include the new todo with a UUID.
 
----
+### Test Run
+- **Date:**
+- **Result:**
 
-### **TC7: Data Validation**
-**Scenario:** The API should reject incorrect data.  
-**Remarks:** Use Laravel’s built-in validation.
-
-- **Given** the user submits incomplete or invalid data (Invalid email format, Weak or short password),
-- **When** they send a request to the API,
-- **Then** the API returns a `422 Unprocessable Entity` error.
-
-**Test Run Date:**   
-**Result:**   
+### Testing outputs
+![image1](image3.png)
 
 ---
 
-### **TC8: Frontend Integration**
-**Scenario:** The frontend should correctly display API data.  
-**Remarks:** Ensure proper CORS settings.
+## TC4: Fetch All Todos
 
-- **Given** the frontend makes a valid API request (Fetching user profile (Get Request), Submitting a form (post request) Saving data in database (Post request),
-- **When** the API responds,
-- **Then** the frontend correctly displays the data.
+### Scenario
 
-**Test Run Date:**   
-**Result:**   
+**Remarks:** Retrieve the list of todos.
+
+### Given
+- At least one todo exists in the database.
+
+### When
+- A GET request is sent to `/v1/todos`.
+
+### Then
+- Response status should be `200 OK`.
+- JSON should contain a list of todos.
+
+### Test Run
+- **Date:**
+- **Result:**
+
+### Testing outputs
+![image1](image4.png)
 
 ---
 
-### **TC9: Error Handling**
-**Scenario:** API should return proper error messages.  
-**Remarks:** Standardize error responses.
+## TC5: Fetch a Specific Todo by ID
 
-- **Given** an API request fails due to an issue,
-- **When** an error occurs,
-- **Then** the API returns a response with an error message.
+### Scenario
 
-**Test Run Date:**   
-**Result:**   
+**Remarks:** Retrieve a single todo using its ID.
+
+### Given
+- A valid UUID of an existing todo.
+
+### When
+- A GET request is sent to `/v1/todos/{id}`.
+
+### Then
+- Response status should be `200 OK`.
+- JSON contains the correct todo item.
+
+### Test Run
+- **Date:**
+- **Result:**
+
+### Testing outputs
+![image1](image5.png)
 
 ---
 
+## TC6: Update a Todo Item
 
+### Scenario
 
+**Remarks:** Modify an existing todo.
+
+### Given
+- A valid UUID of an existing todo.
+
+### When
+- A PUT request is sent to `/v1/todos/{id}` with payload:
+
+```json
+{
+  "title": "Laravel-todos",
+  "completed": true
+}
+```
+
+### Then
+- Response status should be `200 OK`.
+- Updated todo should be reflected in the database.
+
+### Test Run
+- **Date:**
+- **Result:**
+
+### Testing outputs
+![image1](image6.png)
+
+---
+
+## TC7: Delete a Todo
+
+### Scenario
+
+**Remarks:** Remove a todo from the database.
+
+### Given
+- A valid UUID of an existing todo.
+
+### When
+- A DELETE request is sent to `/v1/todos/{id}`.
+- A GET request is sent to `/v1/todos/{id}`.
+
+### Then
+- Response status should be `200 OK` for deletion.
+- Fetching the deleted todo should return `404 Not Found`.
+
+### Test Run
+- **Date:**
+- **Result:**
+
+### Testing outputs
+![image1](image7.png)
