@@ -49,6 +49,9 @@ podman ps
 ```sh
 podman stop postgres
 ```
+```sh
+podman start postgres
+```
 
 #### Connecting to PostgreSQL
 ```sh
