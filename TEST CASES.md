@@ -125,6 +125,8 @@ The purpose of these test cases is to ensure that the Laravel REST API, integrat
 }
 ```
 
+
+
 ### Then
 - Response status should be `201 Created`.
 - JSON response should include the new todo with a UUID.
@@ -134,7 +136,7 @@ The purpose of these test cases is to ensure that the Laravel REST API, integrat
 - **Result:**
 
 ### Testing outputs
-![image1](image3.png)
+![image1](image31.png)
 
 ---
 
