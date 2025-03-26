@@ -90,10 +90,7 @@ The purpose of these test cases is to ensure that the Laravel REST API, integrat
 
 ### When
 - `php artisan migrate` is executed.
-- `php artisan tinker` is run, and the following command is executed:
 
-```php
-DB::connection()->getPdo();
 ```
 
 ### Then
