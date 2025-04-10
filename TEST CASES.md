@@ -1,7 +1,7 @@
 **TEST CASES - Laravel REST API with PostgreSQL & Keycloak**
 
 **Submitted By**  
-Pravesh, Abhishek
+ Abhishek
 
 **Submitted To**  
 Vipin Tripathi  
@@ -10,7 +10,7 @@ Vipin Tripathi
 1.0
 
 **Reviewer Name**  
-Manmeet Narang, Pooja Joshi
+Pooja Joshi
 
 ---
 
