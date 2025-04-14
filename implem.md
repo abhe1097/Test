@@ -22,7 +22,6 @@ podman pull docker.io/library/postgres:latest
 #### Run the PostgreSQL Container
 ```sh
 podman run -d \
-  --pod postgres-pod \
   --name postgres \
   -e POSTGRES_USER=myuser \
   -e POSTGRES_PASSWORD=mypassword \
@@ -33,7 +32,6 @@ podman run -d \
 
 #### Explanation of parameters:
 - `-d`: Run the container in detached mode.
-- `--pod postgres-pod`: Attach the container to the pod.
 - `--name postgres`: Assigns a name to the container.
 - `-e POSTGRES_USER=myuser`: Sets the database username.
 - `-e POSTGRES_PASSWORD=mypassword`: Sets the database password.
